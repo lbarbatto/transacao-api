@@ -30,8 +30,9 @@ public class TransacaoService {
         }
 
         transacaoLista.add(dto);
-        System.out.println("transação realizada");
     }
 
-
+    public void dellTransacoes(){
+        transacaoLista.clear();
+    }
 }
