@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/transacao")
+@RequestMapping("/transacao") //endpoint para manipular as Transações.
 public class TransacaoController {
 
     private final TransacaoService transacaoService;
 
     @PostMapping
     public ResponseEntity<Void> addTransacao(@RequestBody TransacaoRequestDTO dto){
-        transacaoService.addTransacao(dto);
+        transacaoService.addTransacao(dto); //Chamada do método para adicionar uma transação à Lista de Transações.
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping
     public ResponseEntity<Void> dellTransacoes(){
-        transacaoService.dellTransacoes();
+        transacaoService.dellTransacoes(); //Chamada do método pra apagar todas as transações da Lista de Transações.
         return ResponseEntity.ok().build();
     }
 }

@@ -13,26 +13,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransacaoService {
 
+    //Lista para armazenar as Transações.
     private final List<TransacaoRequestDTO> transacaoLista = new ArrayList<>();
 
+    //Método para adicionar uma Transação a Lista de Transações.
     public void addTransacao(TransacaoRequestDTO dto) {
-        if (dto.dataHora().isAfter(OffsetDateTime.now())){
+        if (dto.dataHora().isAfter(OffsetDateTime.now())){ //Confere se dataHora da transação é posterior a data atual.
             throw new UnprocessableEntity("A dataHora não pode ser posterior ao momento atual.");
         }
-        if (dto.valor() < 0){
+        if (dto.valor() < 0){ //Confere se valor é negativo.
             throw new UnprocessableEntity("O valor não pode ser menor do que 0(ZERO).");
         }
-        if (dto.valor().toString().isEmpty() || dto.valor().toString().isBlank()){
-            throw new UnprocessableEntity("O valor não pode estar vazio.");
-        }
-        if ((dto.dataHora().toString().isEmpty() || dto.dataHora().toString().isBlank())){
-            throw new UnprocessableEntity("A dataHora não pode estar vazia.");
-        }
 
+        //Adiciona uma Transação à Lista de Transações.
         transacaoLista.add(dto);
     }
 
+    //Método para apagar todas as Transações da Lista de Transações.
     public void dellTransacoes(){
+
+        //Apaga todas as transações da lista.
         transacaoLista.clear();
+    }
+
+    public List<TransacaoRequestDTO> getTransacaoLista(Integer intervaloBusca){
+        OffsetDateTime dataHoraBusca = OffsetDateTime.now().minusSeconds(intervaloBusca);
+        return transacaoLista.stream()
+                .filter(transacao -> transacao.dataHora().isAfter(dataHoraBusca))
+                .toList();
     }
 }
